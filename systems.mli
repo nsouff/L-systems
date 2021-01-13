@@ -22,5 +22,7 @@ val iter_word :
   'b ->
   'b
 
-
-val compute_factor : int -> int -> 's system -> float * float * float * int
+(** Compute factor of line, scale of window and starting width of lines
+ * to draw a lsystem
+*)
+val compute_scales : int -> int -> 's system -> float * float * float * int

@@ -12,6 +12,7 @@ let print_on_minus () =
 let print_on_number x =
   Printf.printf "Calcul de l'itération n°%c" x; print_newline ()
 
+(** display message at current cursor of Grapgics *)
 let display_msg msg =
   (try Graphics.set_font "-bitstream-*-*-r-normal-*-20-*-*-*-*-*-*-*" with _ ->
    try Graphics.set_font "-*-fixed-medium-r-semicondensed-*-\
@@ -20,7 +21,7 @@ let display_msg msg =
   let _ = Graphics.draw_string msg in
   ()
 
-
+(** Display error message at lower left corner of Graphics *)
 let display_error s =
   let s = "Erreur: " ^ s in
   let _ = Graphics.clear_graph () in
@@ -28,6 +29,7 @@ let display_error s =
   let _ = display_msg s in
   ()
 
+(** Print saving and save the current lsystem to "lsystem.svg" *)
 let save_command sys =
   let _ = print_string "Sauvegarde..." in
   let _ = print_newline () in
@@ -35,6 +37,7 @@ let save_command sys =
   let _ = print_string "Fini" in
   print_newline ()
 
+(** Draw current iteration of lsystem on Graphics window *)
 let draw_number_of_system i =
   let _ = Graphics.moveto 0 0 in
   let s = Printf.sprintf "Iteration courante: %d" i in
@@ -45,6 +48,8 @@ let print_not_found c =
   Printf.printf
     "Command inconnue: %c, voir --usage pour les commandes supportées" c;
   print_newline ()
+
+(** Wait user input command and do the appropriate action *)
 let rec wait or_sys cur_sys cur_index =
   let rec cmd_pressed () =
     let ev = Graphics.wait_next_event [Graphics.Key_pressed] in

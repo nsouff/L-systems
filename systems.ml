@@ -13,47 +13,49 @@ type 's system = {
     rules : 's rewrite_rules;
     interp : 's -> Turtle.command list }
 
+(** Iterates on a lsystem's word *)
 let rec iter_word word interp exec a =
   match word with
   | Symb symb -> iter_symb symb interp exec a
   | Branch branch -> iter_branch branch interp exec a
   | Seq seq -> iter_seq seq interp exec a
 
+(** Iterates on a symbol of a lsystem *)
 and iter_symb symb interp exec a =
   exec a (interp symb)
 
+(** Iterates on a sequence of a lsystem *)
 and iter_seq seq interp exec a =
   match seq with
   | [] -> a
   | w :: seq' -> let a' = iter_word w interp exec a
     in iter_seq seq' interp exec a'
 
+(** Iterates on a branch of a lsystem *)
 and iter_branch branch interp exec a =
   let a1 = exec a [Store] in
   let a2 = iter_word branch interp exec a1 in
   exec a2 [Restore]
 
 
-(* Calcule le nouveau coin haut-gauche
- * en fonction de la position de la tortue
-*)
+(** Compute new top left corner of window according to turtle position *)
 let update_up_left turtle up_left =
   let pos = turtle_pos turtle in
   { up_left with x = min up_left.x pos.x; y = max up_left.y pos.y }
 
-(* Calcule le nouveau coin bas-droite en fonction de la position de la tortue *)
+(** Compute new lew right corner of window according to turtle position *)
 let update_down_right turtle down_right =
   let pos = turtle_pos turtle in
   { down_right with x = max down_right.x pos.x; y = min down_right.y pos.y }
 
-(* On ne veut pas dessiner durant le calcul de l'échelle *)
+(** interp fuinction that doesn't draw (used for computing scale) *)
 let frame_interp interp x =
   interp x |> List.map (fun cmd -> match cmd with
       | Line n -> Move n
       | Color c -> Color 0
       | c -> c )
 
-
+(** Returns a rectangle framing a lsystem *)
 let rec frame_exec exec (turtle, up_left, down_right, min_width) cmd =
   match cmd with
   | [] -> (turtle, up_left, down_right, min_width)
@@ -83,21 +85,24 @@ let frame_system sys turtle_start_x turtle_start_y =
   up_left, down_right, min_width
 
 
-(* Calcule le facteur d'agrandissement tel que le rectangle encadrant soit le
- * plus grand possible sans sortir de la fenêtre *)
+(** Compute the factor of line so that the drawing stays in a frame *)
 let scale_factor window_height window_width frame_height frame_width =
   min (window_height /. frame_height) (window_width /. frame_width)
 
-
+(** Compute new starting x point of a turtle *)
 let new_turtle_start_x window_width up_left down_right turtle_x factor =
   (window_width /. 2.) -.
   factor *. ((up_left.x +. down_right.x) /. 2.) +. turtle_x *. (factor -. 1.)
 
+(** Compute new starting y point of a turtle *)
 let new_turtle_start_y window_height up_left down_right turtle_y factor =
   (window_height /. 2.) -.
   factor *. ((up_left.y +. down_right.y) /. 2.) +. turtle_y *. (factor -. 1.)
 
-let compute_factor width height sys =
+(** Compute factor of line, scale of window and starting width of lines
+ * to draw a lsystem
+*)
+let compute_scales width height sys =
   let turtle_start_x = 0. in
   let turtle_start_y = 0. in
   let padding = 50. in
@@ -121,7 +126,7 @@ let compute_factor width height sys =
 let draw_system sys =
 
   let factor, turtle_x, turtle_y, start_width =
-    compute_factor (Graphics.size_x ()) (Graphics.size_y ()) sys in
+    compute_scales (Graphics.size_x ()) (Graphics.size_y ()) sys in
   let turtle = Turtle.create_turtle_at turtle_x turtle_y start_width in
   let _ = iter_word sys.axiom sys.interp (Turtle.exec factor) turtle in
   ();;
@@ -145,10 +150,11 @@ and next_branch rules branch i =
 and next_word rules word i =
   if i = 0 then word
   else match word with
-       | Symb sym -> next_symb rules sym i
-       | Branch bra -> next_branch rules bra i
-       | Seq seq -> next_seq rules seq i
+    | Symb sym -> next_symb rules sym i
+    | Branch bra -> next_branch rules bra i
+    | Seq seq -> next_seq rules seq i
 
+(** Returns next ith iteration of a lsystem *)
 let next sys i =
   if i < 0 then raise (Invalid_argument "valeur de l'iteration < 0")
   else
