@@ -14,7 +14,8 @@ let print_on_number x =
 
 let display_msg msg =
   (try Graphics.set_font "-bitstream-*-*-r-normal-*-20-*-*-*-*-*-*-*" with _ ->
-   try Graphics.set_font "-*-fixed-medium-r-semicondensed-*-20-*-*-*-*-*-iso8859-1"
+   try Graphics.set_font "-*-fixed-medium-r-semicondensed-*-\
+                          20-*-*-*-*-*-iso8859-1"
    with _ -> ());
   let _ = Graphics.draw_string msg in
   ()
