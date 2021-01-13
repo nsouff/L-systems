@@ -39,7 +39,7 @@ let main () =
     Arg.parse cmdline_options extra_arg_action what;
     action_usage ()
   with
-  | Command.Quit ->
+  | Command.Quit | Graphics.Graphic_failure _ ->
     let _ = print_string "Au revoir!"; print_newline () in
     exit 0
 
