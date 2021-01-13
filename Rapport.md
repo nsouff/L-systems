@@ -10,15 +10,15 @@
 ## Fonctionnalités
 
 Voici les fonctionnalités implémentées
-	
+
 ### Parser
 Notre projet permet de lire des L-système depuis des fichiers `.sys` au format
 décrit dans le sujet. Le parser gère aussi les listes de commandes.
 
 ### Dessin à l'échelle
 Le dessin du L-système se fait automatiquement à l'échelle, c'est à dire que le
-L-système occupera le maximum d'espace à l'écran. De plus, le L-système sera 
-centré.
+L-système occupera le maximum d'espace à l'écran (moins une petite marge).
+De plus, le L-système sera centré.
 
 ### Exportation en SVG
 Il est possible d'exporter une itération d'un L-système au format *SVG*. La
@@ -27,7 +27,7 @@ l'exportation.
 
 ### Couleur
 Nous avons étendu le langage de la tortue pour permettre le changement de
-couleur. Le changement de couleur est statique, c'est à dire que le code *RGB* 
+couleur. Le changement de couleur est statique, c'est à dire que le code *RGB*
 de la couleur est connu à l'avance et ne dépend pas de l'état courant de la
 tortue.
 
@@ -92,14 +92,14 @@ suit :
   caractères. __Exemple :__ `C000,200,000`
 
 * Pour le changement d'épaisseur de la ligne : *I* pour élargir le trait et *D*
-  pour le rétrécir. Si l'épaisseur de la tortue doit être négative alors tous 
+  pour le rétrécir. Si l'épaisseur de la tortue doit être négative alors tous
   les traits sont élargis pour rester supérieur strict à 1.
 
 * Pour exécuter plusieurs commandes pour un même symbole, il faut séparer les
   commandes par des espaces. Les commandes sont lancées de gauche à droite.
-  __Exemple :__ `Y C139,069,019 L15`, il y aura d'abord un changement de 
+  __Exemple :__ `Y C139,069,019 L15`, il y aura d'abord un changement de
   couleur puis une ligne.
-  
+
 ### Systems
 Un module principal pour manipuler les L-Systèmes. Le module nous fournit des
 fonctions pour afficher à l'échelle les L-Systèmes et calculer les prochaines
@@ -145,13 +145,13 @@ Voici une chronologie de notre travail :
   2. Fonction de dessin des L-Systèmes (sans l'échelle)
   3. Fonction de calcul des prochaines itérations
   4. Parser implémenté au 3/4
-  
+
 * Décembre 2020 (à partir du 16)
   1. Parser implémenté entièrement
   2. Tortue en style fonctionnel
   3. Le dessin des L-Systèmes se fait à l'échelle
   4. Le projet est utilisable pour l'utilisateur final
-  
+
 * Janvier 2021 (du 2 jusqu'au 14)
   1. Refactorisation de la fonction de calcul de l'échelle et de la fonction de
 	 dessin en utilisant des fonctions d'ordres supérieurs
@@ -159,3 +159,9 @@ Voici une chronologie de notre travail :
   3. Couleur pour la tortue
   4. Épaisseur du trait pour la tortue
 
+### Autre
+Nous avons ajouté le L-Systèmes *pentaplexity.sys* trouvé sur internet et nous
+en avons aussi créer deux, *bouquet.sys* et *br4.sys*, ils permettent de voir
+les différentes fonctionnalités implémentés. Premièrement un symbole correspond
+à plusieurs commandes de tortues, et on y voit aussi des commandes de
+changements de couleurs et de taille des lignes
