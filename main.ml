@@ -1,8 +1,4 @@
-open Lsystems
-
 open Lsystems (* Librairie regroupant le reste du code. Cf. fichier dune *)
-open Systems (* Par exemple *)
-open Turtle
 
 (** Gestion des arguments de la ligne de commande.
     Nous suggérons l'utilisation du module Arg
@@ -37,8 +33,13 @@ let extra_arg_action = fun s -> let sys = Parser.parse_system s in
   Command.wait sys sys 0
 
 let main () =
-  Arg.parse cmdline_options extra_arg_action what;
-  action_usage ()
+  try
+    Arg.parse cmdline_options extra_arg_action what;
+    action_usage ()
+  with
+  | Command.Quit ->
+    let _ = print_string "Au revoir!"; print_newline () in
+    exit 0
 
 (** On ne lance ce main que dans le cas d'un programme autonome
     (c'est-à-dire que l'on est pas dans un "toplevel" ocaml interactif).

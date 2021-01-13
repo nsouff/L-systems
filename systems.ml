@@ -136,4 +136,6 @@ and next_word rules word i =
        | Seq seq -> next_seq rules seq i
 
 let next sys i =
-  { sys with axiom = next_word sys.rules sys.axiom i}
+  if i < 0 then raise (Invalid_argument "valeur de l'iteration < 0")
+  else
+    { sys with axiom = next_word sys.rules sys.axiom i}
