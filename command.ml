@@ -19,6 +19,15 @@ let save_command sys =
   let _ = print_string "Fini" in
   print_newline ()
 
+let draw_number_of_system i =
+  let _ = Graphics.moveto 0 0 in
+  (try Graphics.set_font "-bitstream-*-*-r-normal-*-20-*-*-*-*-*-*-*" with _ ->
+   try Graphics.set_font "-*-fixed-medium-r-semicondensed-*-20-*-*-*-*-*-iso8859-1"
+   with _ -> ());
+  let s = Printf.sprintf "Iteration courante: %d" i in
+  let _ = Graphics.draw_string s in
+  ()
+
 let print_not_found c =
   Printf.printf
     "Command inconnue: %c, voir --usage pour les commandes supportées" c;
@@ -34,6 +43,7 @@ let rec wait or_sys cur_sys cur_index =
         Graphics.clear_graph ();
         Graphics.set_color Graphics.black;
         Systems.draw_system cur_sys;
+        draw_number_of_system cur_index;
         cmd_pressed ()
       | '+' ->
         print_on_plus ();
