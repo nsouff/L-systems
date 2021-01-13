@@ -18,6 +18,7 @@ let display_msg msg =
    try Graphics.set_font "-*-fixed-medium-r-semicondensed-*-\
                           20-*-*-*-*-*-iso8859-1"
    with _ -> ());
+  let _ = Graphics.set_color 0 in
   let _ = Graphics.draw_string msg in
   ()
 
