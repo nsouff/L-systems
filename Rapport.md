@@ -28,11 +28,18 @@ l'exportation.
 ### Couleur
 Nous avons étendu le langage de la tortue pour permettre le changement de
 couleur. Le changement de couleur est statique, c'est à dire que le code *RGB* 
-de la couleur 
+de la couleur est connu à l'avance et ne dépend pas de l'état courant de la
+tortue.
 
 ### Largeur du trait
 La largeur du trait laissé par le passage de la tortue peut être
-modifié
+modifié. L'élargissement et le rétrécissement du trait se fait uniquement par
+pas de 1. Nous avons fait ce choix car :
+1. Le livre de référence utilisait cette convention
+2. Nous voulions une différence avec le changement de couleur
+3. On obtenait des meilleurs résultats sur les L-systèmes arborescent
+
+### GUI
 Nous proposons une interface certes rudimentaire mais efficace pour manipuler
 les L-systèmes. L'utilisateur manipule les L-systèmes au clavier. Les commandes
 sont décrites dans la section suivante.
@@ -99,7 +106,8 @@ fonctions pour afficher à l'échelle les L-Systèmes et calculer les prochaines
 itérations des L-Systèmes (en utilisant l'astuce de l'énoncé).
 
 ### To_svg
-Ce module a pour rôle l'exportation des L-Systèmes au format *SVG*. Le fichier
+Ce module a pour rôle l'exportation des L-Systèmes au format *SVG*. Le résultat
+est écrit dans le fichier *lsystem.svg* dans le répertoire courant.
 
 ### Turtle
 L'autre module principal du projet, il s'agit des opérations sur la tortue. La
