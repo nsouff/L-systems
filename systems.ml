@@ -1,6 +1,6 @@
 open Turtle
-(** Words, rewrite systems, and rewriting *)
 
+(** Words, rewrite systems, and rewriting *)
 type 's word =
   | Symb of 's
   | Seq of 's word list
@@ -12,15 +12,6 @@ type 's system = {
     axiom : 's word;
     rules : 's rewrite_rules;
     interp : 's -> Turtle.command list }
-
-(** Put here any type and function implementations concerning systems *)
-(** Computing the right scale *)
-
-
-(* Coordonnées de départ de la tortue *)
-let turtle_start_x = 0.0
-let turtle_start_y = 0.0
-
 
 let rec iter_word word interp exec a =
   match word with
@@ -78,7 +69,7 @@ let rec frame_exec exec (turtle, up_left, down_right, min_width) cmd =
       cmd
 
 (** Compute the minimal rectangle framing the lsystem *)
-let frame_system sys =
+let frame_system sys turtle_start_x turtle_start_y =
   let interp = frame_interp sys.interp in
   let exec = frame_exec (Turtle.exec 1.) in
   let turtle = Turtle.create_turtle_at turtle_start_x turtle_start_y 0 in
@@ -107,8 +98,10 @@ let new_turtle_start_y window_height up_left down_right turtle_y factor =
   factor *. ((up_left.y +. down_right.y) /. 2.) +. turtle_y *. (factor -. 1.)
 
 let compute_factor width height sys =
+  let turtle_start_x = 0. in
+  let turtle_start_y = 0. in
   let padding = 50. in
-  let ul, dr, mw = frame_system sys in
+  let ul, dr, mw = frame_system sys turtle_start_x turtle_start_y in
 
   let window_width = (Float.of_int width) -. padding in
   let window_height = (Float.of_int height) -. padding in
