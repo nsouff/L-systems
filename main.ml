@@ -31,6 +31,7 @@ let cmdline_options = [
 
 let extra_arg_action = fun s -> let sys = Parser.parse_system s in
   let _ = Graphics.open_graph " 800x800" in
+  let _ = Graphics.set_window_title "L-Systeme" in
   Command.wait sys sys 0
 
 let main () =
